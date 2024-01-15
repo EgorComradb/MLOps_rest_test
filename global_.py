@@ -1,3 +1,6 @@
+import pathlib
 class paths:
-    path_to_save_model = "C:/Users/User/Desktop/Projects/MLOps_rest_test/MLflow/Saved_model"
-    path_to_model = "C:/Users/User/Desktop/Projects/MLOps_rest_test/MLflow/model.pkl"
+    path_to_save_model = str(pathlib.Path(__file__).resolve().parent) + "\MLflow\Saved_model"
+    path_to_model = str(pathlib.Path(__file__).resolve().parent) + "\MLflow\model.pkl"
+
+print()

@@ -1,8 +1,6 @@
 import pickle
 
-import numpy
 from mlflow.types.schema import Schema, ColSpec
-from mlflow.types import DataType
 import mlflow.pyfunc
 import mlflow.transformers
 
@@ -23,7 +21,7 @@ class Model(mlflow.pyfunc.PythonModel):
     def predict(self, context, iris_df):
         input_data = preprocess_input(iris_df)
 
-        with open('C:/Users/User/Desktop/Projects/MLOps_rest_test/MLflow/model.pkl', 'rb') as f:
+        with open(global_.paths.path_to_model, 'rb') as f:
             cls = pickle.load(f)
         predicted_data = cls.predict(input_data)
         predicted_df = preprocess_output(predicted_data)

@@ -15,6 +15,7 @@ async def lifespan(app: FastAPI):
     yield
     model.clear()
 
+
 app = FastAPI(lifespan=lifespan)
 
 
@@ -30,6 +31,7 @@ async def set_params(data: Request):
 @app.get("/get_input_column")
 def get_input_col():
     return model["save_model"].metadata.signature.inputs
+
 
 @app.get("/get_output_column")
 def get_out_col():
