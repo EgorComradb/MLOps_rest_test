@@ -8,7 +8,7 @@ import pandas as pd
 
 from sklearn.datasets import load_iris
 
-from MLflow.preprocess import preprocess_input, preprocess_output
+from preprocess import preprocess_input, preprocess_output
 import global_
 
 
@@ -42,9 +42,11 @@ class Create_Model:
             ColSpec(type=mlflow.types.DataType.double, name='petal length (cm)'),
             ColSpec(type=mlflow.types.DataType.double, name='petal width (cm)'),
         ])
+
         output_schema = mlflow.types.Schema([
             ColSpec(type=mlflow.types.DataType.integer, name="Irises")
         ])
+
         model_signature = mlflow.models.signature.ModelSignature(
             inputs=input_schema,
             outputs=output_schema,
@@ -54,7 +56,8 @@ class Create_Model:
             path=global_.paths.path_to_save_model,
             python_model=Model(),
             artifacts=artifacts,
-            signature=model_signature
+            signature=model_signature,
+            code_path=[global_.paths.path_to_code],
         )
 
 if __name__ == "__main__":
