@@ -8,9 +8,6 @@ import pandas as pd
 
 from sklearn.datasets import load_iris
 
-from preprocess import preprocess_input, preprocess_output
-import global_
-
 
 def create_iris_df() -> pd.DataFrame:
     iris = load_iris()
@@ -19,9 +16,10 @@ def create_iris_df() -> pd.DataFrame:
 
 class Model(mlflow.pyfunc.PythonModel):
     def predict(self, context, iris_df):
+        from preprocess import preprocess_input, preprocess_output
         input_data = preprocess_input(iris_df)
 
-        with open(global_.paths.path_to_model, 'rb') as f:
+        with open(context.artifacts["sklearn_model"], 'rb') as f:
             cls = pickle.load(f)
         predicted_data = cls.predict(input_data)
         predicted_df = preprocess_output(predicted_data)
@@ -31,7 +29,7 @@ class Model(mlflow.pyfunc.PythonModel):
 
 class Create_Model:
     def __init__(self):
-        model_path = global_.paths.path_to_model
+        model_path = "model.pkl"
         artifacts = {
             "sklearn_model": model_path
         }
@@ -53,11 +51,11 @@ class Create_Model:
         )
 
         mlflow.pyfunc.save_model(
-            path=global_.paths.path_to_save_model,
+            path="Saved_model",
             python_model=Model(),
             artifacts=artifacts,
             signature=model_signature,
-            code_path=[global_.paths.path_to_code],
+            code_path=["./preprocess.py"],
         )
 
 if __name__ == "__main__":

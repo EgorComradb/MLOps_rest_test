@@ -4,14 +4,11 @@ from contextlib import asynccontextmanager
 import pandas as pd
 from io import StringIO
 
-import global_
-
 model = {}
-
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    model["save_model"] = mlflow.pyfunc.load_model(global_.paths.path_to_save_model)
+    model["save_model"] = mlflow.pyfunc.load_model("./MLflow/Saved_model")
     yield
     model.clear()
 
